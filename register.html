@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.5">
+    <title>Admissions Portal | Naminjiwa TC</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+   <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#002347">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<script>
+  // Register the Service Worker
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then(reg => console.log('App Registered!'))
+        .catch(err => console.log('Registration Failed', err));
+    });
+  }
+</script>
+    <style>
+        :root { 
+            --navy: #002347; 
+            --orange: #ff6600; 
+            --light-bg: #f4f7f9;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        body { 
+            background: var(--navy); 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            padding: 20px; 
+            color: #333;
+        }
+
+        .form-card { 
+            background: white; 
+            max-width: 850px; 
+            margin: 20px auto; 
+            padding: 40px; 
+            border-radius: 15px; 
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .header-brand { 
+            text-align: center; 
+            border-bottom: 4px solid var(--orange); 
+            margin-bottom: 30px; 
+            padding-bottom: 20px; 
+        }
+
+        .logo-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .logo-row img { max-height: 70px; width: auto; }
+        
+        .header-brand h2 { color: var(--navy); margin: 10px 0; letter-spacing: 1px; font-size: 1.4rem; }
+        
+        fieldset { 
+            border: 1px solid #ced4da; 
+            border-radius: 10px; 
+            margin-bottom: 25px; 
+            padding: 25px; 
+            background: #fff;
+        }
+
+        legend { 
+            font-weight: bold; 
+            color: var(--orange); 
+            padding: 0 15px; 
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+        label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; color: #444; }
+        
+        input, select, textarea { 
+            width: 100%; padding: 12px; border: 1px solid #ddd; 
+            border-radius: 6px; box-sizing: border-box; transition: all 0.3s;
+            background: var(--light-bg);
+        }
+
+        .upload-box {
+            border: 2px dashed #bbb;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            cursor: pointer;
+            background: #fafafa;
+        }
+
+        #certPreview { width: 100%; max-height: 200px; object-fit: contain; margin-top: 15px; display: none; border: 1px solid #eee; }
+
+        .submit-btn { 
+            width: 100%; padding: 22px; background: var(--orange); color: white; 
+            border: none; font-weight: bold; border-radius: 8px; cursor: pointer; 
+            font-size: 1.2rem; transition: 0.4s;
+        }
+
+        .submit-btn:hover { background: #e65c00; transform: scale(1.01); }
+
+        .return-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<div class="form-card">
+    <div class="header-brand">
+        <div class="logo-row">
+            <img src="logo2.png" alt="School Logo">
+            <img src="logo.png" alt="TEVETA Logo">
+        </div>
+        <h2>NAMINJIWA COMMUNITY TECHNICAL COLLEGE</h2>
+        <p style="color: #666; font-weight: 500; margin: 0;">In Partnership with TEVETA Malawi</p>
+        <p style="color: var(--navy); font-weight: bold; margin-top: 5px;">2026 INTAKE ADMISSION PORTAL</p>
+    </div>
+
+    <form id="appForm">
+        <fieldset>
+            <legend>1. Personal Details</legend>
+            <div class="grid">
+                <div>
+                    <label>Full Name</label>
+                    <input type="text" id="name" placeholder="As per MSCE Certificate" required>
+                </div>
+                <div>
+                    <label>Gender</label>
+                    <select id="gender" required>
+                        <option value="">-- Select --</option>
+                        <option>Male</option>
+                        <option>Female</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Phone Number</label>
+                    <input type="tel" id="phone" required>
+                </div>
+                <div>
+                    <label>Email Address</label>
+                    <input type="email" id="email" required>
+                </div>
+            </div>
+            <div style="margin-top: 15px;">
+                <label>Home Address (Village/T.A./District)</label>
+                <textarea id="address" rows="2" required></textarea>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>2. Emergency Contact / Next of Kin</legend>
+            <div class="grid">
+                <div>
+                    <label>Full Name</label>
+                    <input type="text" id="kinName" required>
+                </div>
+                <div>
+                    <label>Relationship</label>
+                    <input type="text" id="kinRel" placeholder="e.g. Parent / Guardian" required>
+                </div>
+                <div>
+                    <label>Contact Number</label>
+                    <input type="tel" id="kinPhone" required>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>3. Academic Choices</legend>
+            <div class="grid">
+                <div>
+                    <label>Primary Trade (1st Choice)</label>
+                    <select id="trade1" required>
+                        <option value="">-- Select Trade --</option>
+                        <option>ICT</option>
+                        <option>Welding & Fabrication</option>
+                        <option>Fashion & Design</option>
+                        <option>Plumbing</option>
+                        <option>Brick Laying</option>
+                        <option>Carpentry & Joinery</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Secondary Trade (2nd Choice)</label>
+                    <select id="trade2" required>
+                        <option value="">-- Select Trade --</option>
+                        <option>ICT</option>
+                        <option>Welding & Fabrication</option>
+                        <option>Fashion & Design</option>
+                        <option>Plumbing</option>
+                        <option>Brick Laying</option>
+                        <option>Carpentry & Joinery</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Total MSCE Points</label>
+                    <input type="number" id="points" min="6" max="50" required>
+                </div>
+                <div>
+                    <label>Upload Certificate (JPG)</label>
+                    <div class="upload-box" onclick="document.getElementById('fileIn').click()">
+                        <span id="fileLabel">Click to Upload</span>
+                        <input type="file" id="fileIn" accept="image/jpeg" hidden onchange="handleImage(this)">
+                    </div>
+                </div>
+            </div>
+            <img id="certPreview">
+        </fieldset>
+
+        <button type="button" onclick="generateAndEmail()" class="submit-btn">SUBMIT OFFICIAL APPLICATION</button>
+    </form>
+</div>
+
+<a href="index.html" class="return-link">← Return to Home Page</a>
+
+<script>
+    const SCHOOL_LOGO_DATA = "data:image/png;base64,..."; 
+    const TEVETA_LOGO_DATA = "data:image/png;base64,..."; 
+
+    let imageData = null;
+
+    function handleImage(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                imageData = e.target.result;
+                document.getElementById('certPreview').src = imageData;
+                document.getElementById('certPreview').style.display = 'block';
+                document.getElementById('fileLabel').innerText = "Image Selected";
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    async function generateAndEmail() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        const userName = document.getElementById('name').value;
+
+        if(!userName || !document.getElementById('trade1').value) {
+            alert("Please fill in the required fields.");
+            return;
+        }
+
+        // --- PDF HEADER ---
+        doc.setFillColor(0, 35, 71); 
+        doc.rect(0, 0, 210, 50, 'F');
+        
+        try {
+            doc.addImage(SCHOOL_LOGO_DATA, 'PNG', 15, 10, 25, 25);
+            doc.addImage(TEVETA_LOGO_DATA, 'PNG', 170, 10, 25, 25);
+        } catch(e) {}
+
+        doc.setTextColor(255, 255, 255);
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(16);
+        doc.text("NAMINJIWA COMMUNITY TECHNICAL COLLEGE", 105, 22, {align: "center"});
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "normal");
+        doc.text("P.O. Box 22, Migowi, Phalombe | In Partnership with TEVETA Malawi", 105, 30, {align: "center"});
+        doc.setFontSize(12);
+        doc.text("STUDENT ENROLLMENT APPLICATION - 2026 INTAKE", 105, 40, {align: "center"});
+
+        // Official Use Box
+        doc.setDrawColor(0, 35, 71);
+        doc.setFillColor(245, 245, 245);
+        doc.rect(150, 60, 45, 32, 'FD');
+        doc.setFontSize(8);
+        doc.setTextColor(0, 35, 71);
+        doc.text("OFFICIAL USE ONLY", 152, 65);
+        doc.text("DATE: ____________", 152, 75);
+        doc.text("STAMP: ___________", 152, 85);
+
+        let y = 65;
+        doc.setTextColor(0, 0, 0);
+        doc.setFontSize(11);
+
+        const drawSectionHeader = (txt) => {
+            doc.setFillColor(235, 235, 235);
+            doc.rect(15, y, 130, 8, 'F');
+            doc.setFont("helvetica", "bold");
+            doc.text(txt, 20, y + 6);
+            y += 15;
+        };
+
+        const drawField = (label, value) => {
+            doc.setFont("helvetica", "bold");
+            doc.text(label + ":", 20, y);
+            doc.setFont("helvetica", "normal");
+            doc.text(String(value), 65, y);
+            y += 8;
+        };
+
+        // Section 1
+        drawSectionHeader("1. APPLICANT DATA");
+        drawField("Full Name", userName);
+        drawField("Gender", document.getElementById('gender').value);
+        drawField("Contact", document.getElementById('phone').value);
+        drawField("Email", document.getElementById('email').value);
+        
+        y += 5;
+        // Section 2 (RESTORED TO PDF)
+        drawSectionHeader("2. NEXT OF KIN DETAILS");
+        drawField("Kin Name", document.getElementById('kinName').value);
+        drawField("Relationship", document.getElementById('kinRel').value);
+        drawField("Kin Phone", document.getElementById('kinPhone').value);
+
+        y += 5;
+        // Section 3
+        drawSectionHeader("3. ACADEMIC SELECTION");
+        drawField("Primary Trade", document.getElementById('trade1').value);
+        drawField("Secondary Trade", document.getElementById('trade2').value);
+        drawField("MSCE Points", document.getElementById('points').value);
+
+        // Footer
+        doc.setFontSize(9);
+        doc.text("Applicant Signature: _______________________", 15, 260);
+        doc.text("Date: " + new Date().toLocaleDateString(), 140, 260);
+
+        // Attachment
+        if (imageData) {
+            doc.addPage();
+            doc.setFillColor(0, 35, 71);
+            doc.rect(0, 0, 210, 15, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.text("ATTACHMENT: MSCE CERTIFICATE", 105, 10, {align: "center"});
+            doc.addImage(imageData, 'JPEG', 15, 25, 180, 240);
+        }
+
+        doc.save(`NTC_Application_2026_${userName.replace(/\s+/g, '_')}.pdf`);
+        
+        setTimeout(() => {
+            window.location.href = `mailto:admissions@naminjiwatc.mw?subject=Application - ${userName}`;
+        }, 1500);
+    }
+</script>
+
+</body>
+</html>
