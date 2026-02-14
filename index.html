@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.5">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.5">
+    <title>Naminjiwa Technical College . Skill is wealth</title>
+    <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#002347">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<script>
+  // Register the Service Worker
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then(reg => console.log('App Registered!'))
+        .catch(err => console.log('Registration Failed', err));
+    });
+  }
+</script>
+    <style>
+        :root { 
+            --navy: #002347; 
+            --orange: #ff6600; 
+            --light: #f4f7f6; 
+            --white: #ffffff; 
+        }
+        
+        body { margin: 0; font-family: 'Segoe UI', Arial, sans-serif; background: var(--light); color: var(--navy); scroll-behavior: smooth; }
+
+        /* Navigation */
+        header { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 10px 6%; background: var(--white); box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            position: sticky; top: 0; z-index: 1000;
+        }
+        .logo-area { display: flex; align-items: center; gap: 15px; }
+        .logo-area img { height: 60px; border-radius: 5px; }
+        .nav-links a, .nav-links button { 
+            text-decoration: none; padding: 10px 18px; border-radius: 4px; 
+            font-weight: bold; border: none; cursor: pointer; margin-left: 8px; transition: 0.3s;
+        }
+        .btn-news { background: var(--orange); color: white; }
+        .btn-apply { background: var(--navy); color: white; }
+        .btn-news:hover, .btn-apply:hover { opacity: 0.8; transform: translateY(-2px); }
+
+        /* Hero Section */
+        .hero { 
+            height: 75vh; 
+            background: linear-gradient(rgba(0,35,71,0.7), rgba(0,35,71,0.7)),
+                        url('technical3.jpg'); 
+            background-size: cover; 
+            background-position: center; 
+            background-attachment: fixed;
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            color: white; 
+            text-align: center;
+        }
+        .hero h1 { font-size: 3.8rem; margin: 0; text-transform: uppercase; letter-spacing: 2px; }
+        .hero p { font-size: 1.4rem; border-top: 3px solid var(--orange); padding-top: 10px; }
+
+        /* Trade Grid */
+        .section-header { text-align: center; margin: 50px 0 20px; color: var(--navy); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 0 8% 50px; }
+        .card { 
+            background: white; border-radius: 12px; overflow: hidden; 
+            box-shadow: 0 6px 15px rgba(0,0,0,0.05); transition: 0.4s; cursor: pointer; position: relative;
+        }
+        .card:hover { transform: scale(1.03); box-shadow: 0 12px 25px rgba(0,0,0,0.15); }
+        .card img { width: 100%; height: 220px; object-fit: cover; }
+        .card-label { padding: 15px; text-align: center; background: var(--navy); color: white; font-weight: bold; }
+        .card:hover .card-label { background: var(--orange); }
+
+        /* Recent Works Gallery */
+        .recent-works{ 
+            height: 75vh; 
+            background: linear-gradient(rgba(0,35,71,0.7), rgba(0,35,71,0.7)), 
+                        url('technical.jpg'); 
+            background-size: cover; 
+            background-position: center; 
+            background-attachment: fixed;
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            color: white; 
+        }
+        .gallery { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-top: 30px; }
+        .gallery-item { 
+            width: 200px; height: 150px; border: 3px solid var(--orange); 
+            border-radius: 8px; overflow: hidden; position: relative;
+        }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; filter: grayscale(100%); }
+        .gallery-item:hover img { filter: grayscale(0%); transform: scale(1.2); }
+
+        /* Timetable Section */
+        .timetable-section { padding: 60px 10%; background: var(--navy); color: white; text-align: center; }
+        .live-info { margin-bottom: 30px; display: flex; justify-content: center; gap: 15px; }
+        .live-badge { 
+            background: rgba(255, 102, 0, 0.1); padding: 10px 20px; 
+            border-radius: 8px; border: 1px solid var(--orange); 
+            color: var(--orange); font-weight: bold; font-family: monospace; 
+        }
+
+        select { padding: 15px; width: 320px; border: 2px solid var(--navy); border-radius: 6px; font-size: 1rem; margin-bottom: 20px; }
+        #display-box { padding: 25px; background: rgba(255,255,255,0.05); border-radius: 10px; color: white; }
+
+        /* Row Layout */
+        .session-row {
+            display: grid; grid-template-columns: 180px 1fr;
+            background: #001a33; margin-bottom: 12px;
+            border-radius: 10px; overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: 0.4s;
+        }
+
+        .row-active { 
+            border: 2px solid var(--orange); 
+            box-shadow: 0 0 20px rgba(255, 102, 0, 0.4);
+            transform: scale(1.02);
+        }
+
+        .time-pillar { 
+            background: #000c1a; color: #fff; padding: 25px; 
+            font-weight: bold; border-right: 3px solid var(--orange); 
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .details-box { 
+            padding: 20px; display: flex; justify-content: space-between; 
+            align-items: center; background: #002b4d; text-align: left;
+        }
+
+        .lesson-title { color: #ffffff; font-size: 1.15rem; font-weight: 600; display: block; }
+        .room-info { color: #00d4ff; font-size: 0.9rem; font-weight: bold; margin-top: 5px; display: block; }
+
+        .instructor-pill {
+            background: var(--orange); color: var(--navy);
+            padding: 6px 12px; border-radius: 4px; font-size: 0.85rem;
+            font-weight: 800; white-space: nowrap;
+        }
+
+        .live-tag {
+            color: var(--orange); font-size: 0.7rem; font-weight: bold;
+            letter-spacing: 2px; display: block; margin-top: 8px;
+            animation: blink 1.5s infinite;
+        }
+
+        /* --- FRIDAY CLEANING BLINKING EFFECTS --- */
+        .cleaning-row {
+            border-left: 8px solid #ff3300 !important;
+            background: #1a0500 !important;
+        }
+        .cleaning-text { color: #ff3300 !important; font-weight: 900 !important; }
+        
+        .cleaning-active { 
+            animation: clean-glow 1.5s infinite alternate !important; 
+            border: 2px solid #ff3300 !important;
+        }
+        
+        .flash-text { animation: text-blink 0.8s infinite; }
+
+        @keyframes clean-glow {
+            from { box-shadow: inset 0 0 10px #ff3300; }
+            to { box-shadow: inset 0 0 35px #ff3300; }
+        }
+        @keyframes text-blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.2; }
+            100% { opacity: 1; }
+        }
+        @keyframes blink { 0% {opacity: 1} 50% {opacity: 0.4} 100% {opacity: 1} }
+
+        footer { background: var(--navy); color: white; padding: 40px 8%; display: flex; justify-content: space-between; flex-wrap: wrap; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo-area">
+        <img src="logo2.png" alt="Naminjiwa Logo">
+        <h2 style="color: var(--navy); margin: 0;">NAMINJIWA <span style="color: var(--orange);">TECHNICAL COLLEGE</span></h2>
+    </div>
+    <div class="nav-links">
+        <a href="announcements.html" target="_blank" class="btn-news">NOTICES</a>
+        <a href="register.html" target="_blank" class="btn-apply">APPLY NOW</a>
+        <a href="contacts.html" style="color: var(--navy); font-weight: bold; text-decoration: none; margin-left: 250px;">CONTACTS</a>
+    </div>
+</header>
+
+<div class="hero">
+    <h1>Naminjiwa Technical College</h1>
+    <p>Skill is wealth</p>
+</div>
+
+<h2 class="section-header">Our Specialized Trades</h2>
+<div class="grid">
+    <div class="card" onclick="window.open('cat-ict.html', '_blank')">
+        <img src="technical2.jpg"> <div class="card-label">ICT Department</div>
+    </div>
+    <div class="card" onclick="window.open('cat-fashion.html', '_blank')">
+        <img src="tailoring.jpg"> <div class="card-label">Fashion & Design</div>
+    </div>
+    <div class="card" onclick="window.open('cat-carpentry.html', '_blank')">
+        <img src="carpentry2.jpg"> <div class="card-label">Carpentry & Joinery</div>
+    </div>
+    <div class="card" onclick="window.open('cat-welding.html', '_blank')">
+        <img src="welding.jpg"> <div class="card-label">Welding & Fabrication</div>
+    </div>
+    <div class="card" onclick="window.open('cat-plumbing.html', '_blank')">
+        <img src="technical.jpg"> <div class="card-label">Plumbing</div>
+    </div>
+    <div class="card" onclick="window.open('cat-bricklaying.html', '_blank')">
+        <img src="brick.jpg"> <div class="card-label">Brick Laying</div>
+    </div>
+</div>
+
+<div class="recent-works">
+    <h2>Demonstrating Recent Works</h2>
+    <p>See what our students are building on campus</p>
+    <div class="gallery">
+        <div class="gallery-item"><img src="welding2.jpg" title="Fabricated Gate"></div>
+        <div class="gallery-item"><img src="tailoring.jpg" title="Design Collection"></div>
+        <div class="gallery-item"><img src="technical2.jpg" title="Networking works"></div>
+        <div class="gallery-item"><img src="carpentry.JPG" title="Modern Furniture"></div>
+    </div>
+</div>
+
+<div class="timetable-section">
+    <div class="status-bar">
+        <h2>Naminjiwa TC <span style="color: var(--orange);">Daily Schedule</span></h2>
+        <div class="live-info">
+            <span id="day-display" class="live-badge">Detecting Day...</span>
+            <span id="clock-display" class="live-badge">00:00:00</span>
+        </div>
+    </div>
+    
+    <select id="tradePicker" onchange="loadSmartTimetable()">
+        <option value="">-- Choose Your Department --</option>
+        <option value="ict">ICT</option>
+        <option value="fashion">Tailoring & Fashion Design</option>
+        <option value="carpentry">Carpentry & Joinery</option>
+        <option value="welding">Welding & Fabrication</option>
+        <option value="plumbing">Plumbing</option>
+        <option value="brick">Brick Laying</option>
+    </select>
+
+    <div id="display-box"></div>
+</div>
+
+<script>
+    function updateLiveClock() {
+        const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        const now = new Date();
+        const dayDisplay = document.getElementById('day-display');
+        const clockDisplay = document.getElementById('clock-display');
+        
+        if(dayDisplay) dayDisplay.innerHTML = `📅 ${days[now.getDay()].toUpperCase()}`;
+        if(clockDisplay) clockDisplay.innerHTML = now.toLocaleTimeString();
+    }
+    setInterval(updateLiveClock, 1000);
+    updateLiveClock();
+
+    function loadSmartTimetable() {
+        const trade = document.getElementById('tradePicker').value;
+        const out = document.getElementById('display-box');
+        const now = new Date();
+        const currentMins = (now.getHours() * 60) + now.getMinutes();
+        const todayName = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][now.getDay()];
+
+        const masterData = {
+           ict: {
+    Monday:    [{l:"ENTRE", i:"Ms. Mwamadi", r:"ICT Classroom"}, {l:"SCIENCE", i:"Mr. Mtambo", r:"ICT Classroom"}, {l:"W.SHOP", i:"Mr. Mtambo/Ms. Kalolokesya", r:"Resource Center"}],
+    Tuesday:   [{l:"TECH", i:"Mr. Mtambo", r:"ICT Classroom"}, {l:"TD", i:"Mr. Nkhambule", r:"Showroom"}, {l:"W.SHOP", i:"Mr. Mtambo/Ms. Kalolokesya", r:"Resource Center"}],
+    Wednesday: [{l:"COMM", i:"Mr. Mtambo", r:"ICT Classroom"}, {l:"NUM", i:"Ms. Kalolokesya", r:"ICT Classroom"}, {l:"W.SHOP", i:"Mr. Mtambo/Ms. Kalolokesya", r:"Resource Center"}],
+    Thursday:  [{l:"TECH", i:"Mr. Mtambo", r:"ICT Classroom"}, {l:"NUM", i:"Ms. Kalolokesya", r:"ICT Classroom"}, {l:"TD", i:"Mr. Nkhambule", r:"Showroom"}, {l:"W.SHOP", i:"Mr. Mtambo/Ms. Kalolokesya", r:"Resource Center"}],
+    Friday:    [{l:"TECH", i:"Mr. Mtambo", r:"ICT Classroom"}, {l:"OSH", i:"Ms. Kalolokesya", r:"ICT Classroom"}, {l:"TUTORIAL & ASSESSMENT", i:"Instructor", r:"RESORCE CENTER"}]
+},
+welding: {
+    Monday:    [{l:"TECH", i:"Mr. Khasu", r:"Classroom 1"}, {l:"SCIE", i:"Mr. Evance", r:"Classroom 1"}, {l:"W.SHOP", i:"Mr. Evance", r:"FBW Workshop"}],
+    Tuesday:   [{l:"TECH", i:"Mr. Khasu", r:"Classroom 1"}, {l:"NUM", i:"Mr. Evance", r:"Classroom 1"}, {l:"W.SHOP", i:"Mr. Evance", r:"FBW Workshop"}],
+    Wednesday: [{l:"COMM", i:"Mr. Evance", r:"Classroom 1"}, {l:"TD", i:"Mr. Khasu", r:"Classroom 1"}, {l:"W.SHOP", i:"Mr. Evance", r:"FBW Workshop"}],
+    Thursday:  [{l:"ENTRE", i:"Ms. Mwamadi", r:"Board Room"}, {l:"NUM", i:"Mr. Evance", r:"Classroom 1"}, {l:"TD", i:"Mr. Khasu", r:"Classroom 1"}, {l:"W.SHOP", i:"Mr. Evance", r:"FBW Workshop"}],
+    Friday:    [{l:"TECH", i:"Mr. Khasu", r:"Classroom 1"}, {l:"OSH", i:"Mr. Evance", r:"Showroom"}, {l:"TUTORIAL & ASSESSMENT", i:"Instructor", r:"WORKSHOP"}]
+},
+fashion: {
+    Monday:    [{l:"TECH", i:"Ms. Mtsiriza", r:"Classroom 5"}, {l:"SCIE", i:"Ms. Mtsiriza", r:"Classroom 5"}, {l:"W.SHOP", i:"Ms. Mtsiriza", r:"TFD Workshop"}],
+    Tuesday:   [{l:"ENTRE", i:"Ms. Mwamadi", r:"Classroom 5"}, {l:"NUM", i:"Ms. Mtsiriza", r:"Classroom 5"}, {l:"W.SHOP", i:"Ms. Mtsiriza", r:"TFD Workshop"}],
+    Wednesday: [{l:"TECH", i:"Ms. Mtsiriza", r:"Classroom 5"}, {l:"TD", i:"Ms. Mtsiriza", r:"Classroom 5"}, {l:"W.SHOP", i:"Ms. Mtsiriza", r:"TFD Workshop"}],
+    Thursday:  [{l:"COMM", i:"Ms. Mtsiriza", r:"Showroom"}, {l:"NUM", i:"Mr. Machuwila", r:"Classroom 5"}, {l:"TD", i:"Ms. Mtsiriza", r:"Classroom 5"}, {l:"W.SHOP", i:"Ms. Mtsiriza", r:"TFD Workshop"}],
+    Friday:    [{l:"TECH", i:"Ms. Mtsiriza", r:"Classroom 5"}, {l:"OSH", i:"Mr. Evance", r:"Showroom"}, {l:"TUTORIAL & ASSESSMENT", i:"Instructor", r:"WORKSHOP"}]
+},
+carpentry: {
+    Monday:    [{l:"TECH", i:"Mr. Nkhambule", r:"Classroom 3"}, {l:"NUM", i:"Mr. Liwonde", r:"Classroom 3"}, {l:"W.SHOP", i:"Mr. Liwonde/Mr. Nkhambule", r:"CRJ Workshop"}],
+    Tuesday:   [{l:"COMM", i:"Mr. Nkhambule", r:"Classroom 3"}, {l:"TD", i:"Mr. Nkhambule", r:"Showroom"}, {l:"W.SHOP", i:"Mr. Liwonde/Mr. Nkhambule", r:"CRJ Workshop"}],
+    Wednesday: [{l:"TECH", i:"Mr. Nkhambule", r:"Classroom 3"}, {l:"SCIE", i:"Mr. Liwonde", r:"Classroom 3"}, {l:"W.SHOP", i:"Mr. Liwonde/Mr. Nkhambule", r:"CRJ Workshop"}],
+    Thursday:  [{l:"TECH", i:"Mr. Nkhambule", r:"Classroom 3"}, {l:"NUM", i:"Mr. Liwonde", r:"Classroom 3"}, {l:"TD", i:"Mr. Nkhambule", r:"Showroom"}, {l:"W.SHOP", i:"Mr. Liwonde/Mr. Nkhambule", r:"CRJ Workshop"}],
+    Friday:    [{l:"ENTRE", i:"Ms. Mwamadi", r:"Classroom 3"}, {l:"OSH", i:"Mr. Liwonde", r:"Classroom 3"}, {l:"TUTORIAL & ASSESSMENT", i:"Instructor", r:"WORKSHOP"}]
+},
+plumbing: {
+    Monday:    [{l:"TECH", i:"Mr. Neddie", r:"Classroom 2"}, {l:"NUM", i:"Mr. Neddie", r:"Classroom 2"}, {l:"W.SHOP", i:"Mr. Makuluni", r:"PLB Workshop"}],
+    Tuesday:   [{l:"TECH", i:"Mr. Neddie", r:"Classroom 2"}, {l:"SCIE", i:"Mr. Neddie", r:"Classroom 2"}, {l:"W.SHOP", i:"Mr. Makuluni", r:"PLB Workshop"}],
+    Wednesday: [{l:"ENTRE", i:"Ms. Mwamadi", r:"Classroom 2"}, {l:"TD", i:"Mr. Makuluni", r:"Classroom 2"}, {l:"W.SHOP", i:"Mr. Makuluni", r:"PLB Workshop"}],
+    Thursday:  [{l:"COMM", i:"Mr. Makuluni", r:"Showroom"}, {l:"NUM", i:"Mr. Neddie", r:"Classroom 2"}, {l:"TD", i:"Mr. Neddie", r:"Classroom 2"}, {l:"W.SHOP", i:"Mr. Makuluni", r:"PLB Workshop"}],
+    Friday:    [{l:"TECH", i:"Mr. Neddie", r:"Classroom 2"}, {l:"OSH", i:"Mr. Makuluni", r:"Classroom 2"}, {l:"WORKSHOP", i:"Instructor", r:"WORKSHOP"}]
+},
+brick: {
+    Monday:    [{l:"TECH", i:"Mr. Machuwila", r:"Classroom 4"}, {l:"NUM", i:"Mr. Smart", r:"Classroom 4"}, {l:"W.SHOP", i:"Mr. Machuwila/Mr. Smart", r:"BL Workshop"}],
+    Tuesday:   [{l:"COMM", i:"Mr. Smart", r:"Classroom 4"}, {l:"TD", i:"Mr. Liwonde", r:"Classroom 4"}, {l:"W.SHOP", i:"Mr. Machuwila/Mr. Smart", r:"BL Workshop"}],
+    Wednesday: [{l:"TECH", i:"Mr. Machuwila", r:"Classroom 4"}, {l:"SCIE", i:"Mr. Smart", r:"Classroom 4"}, {l:"W.SHOP", i:"Mr. Machuwila/Mr. Smart", r:"BL Workshop"}],
+    Thursday:  [{l:"ENTRE", i:"Ms. Mwamadi", r:"Board Room"}, {l:"NUM", i:"Mr. Smart", r:"Classroom 3"}, {l:"TD", i:"Mr. Liwonde", r:"Classroom 4"}, {l:"W.SHOP", i:"Mr. Machuwila/Mr. Smart", r:"BL Workshop"}],
+    Friday:    [{l:"TECH", i:"Mr. Machuwila", r:"Classroom 4"}, {l:"OSH", i:"Mr. Smart", r:"Classroom 4"}, {l:"TUTORIAL & ASSESSMENT", i:"Instructor", r:"WORKSHOP"}]
+}
+        };
+
+        const dailySpecial = {
+            Monday:    { l: "Clubs & Society", r: "Respective Locations", i: "Clubs Patrons", c: "#ffcc00" },
+            Tuesday:   { l: "Sports", r: "School Ground", i: "Sports Coordinator", c: "#00d4ff" },
+            Wednesday: { l: "Clubs & Society", r: "Respective Locations", i: "Clubs Patrons", c: "#ff00ff" },
+            Thursday:  { l: "Sports", r: "School Ground", i: "Sports Coordinator", c: "#ffffff" },
+            Friday:    { l: "Sports", r: "School Ground", i: "Sports Coordinator", c: "#00ff88" }
+        };
+
+        if (todayName === "Saturday" || todayName === "Sunday") {
+            out.innerHTML = "<h3 style='color:var(--orange)'>Naminjiwa TC is closed for the weekend. See you Monday!</h3>";
+            return;
+        }
+
+        if (trade && masterData[trade] && masterData[trade][todayName]) {
+            let html = '';
+            const lessons = masterData[trade][todayName];
+
+            // --- 1. SESSION 1 (Common for all days) ---
+            html += generateRow(lessons[0], {s: 450, e: 570, lbl: "07:30 - 09:30 AM"}, currentMins);
+
+            // --- 2. SESSION 2 & 3 (Logic varies by day) ---
+            if (todayName === "Thursday") {
+                // Thursday: Lesson 2 ends at 11:00
+                html += generateRow(lessons[1], {s: 600, e: 660, lbl: "10:00 - 11:00 AM"}, currentMins);
+                // Thursday: New Lesson 3 (11:00 - 12:00)
+                html += generateRow(lessons[2], {s: 660, e: 720, lbl: "11:00 - 12:00 PM"}, currentMins);
+                // Thursday: Lesson 4 (01:30 - 03:30)
+                html += generateRow(lessons[3], {s: 810, e: 930, lbl: "01:30 - 03:30 PM"}, currentMins);
+            } 
+            else if (todayName === "Friday") {
+                html += generateRow(lessons[1], {s: 600, e: 690, lbl: "10:00 - 11:00 AM"}, currentMins);
+                const isCleanLive = currentMins >= 690 && currentMins <= 720;
+                html += `
+                    <div class="session-row cleaning-row ${isCleanLive ? 'cleaning-active row-active' : ''}">
+                        <div class="time-pillar" style="color:#ff3300">11:00 - 12:00 PM</div>
+                        <div class="details-box">
+                            <div>
+                                <span class="lesson-title ${isCleanLive ? 'flash-text' : ''}" style="color:#ff3300">GENERAL CLEANING</span>
+                                <span class="room-info">📍 ALL CAMPUS AREAS</span>
+                                ${isCleanLive ? '<span class="live-tag">● MANDATORY ACTIVITY</span>' : ''}
+                            </div>
+                            <span class="instructor-pill" style="background:#ff3300; color:#fff;">EVERYONE</span>
+                        </div>
+                    </div>`;
+                // Friday Afternoon Session
+                html += generateRow(lessons[2], {s: 810, e: 930, lbl: "01:30 - 03:30 PM"}, currentMins);
+            } 
+            else {
+                // Normal Mon, Tue, Wed
+                html += generateRow(lessons[1], {s: 600, e: 720, lbl: "10:00 - 12:00 PM"}, currentMins);
+                html += generateRow(lessons[2], {s: 810, e: 930, lbl: "01:30 - 03:30 PM"}, currentMins);
+            }
+
+            // --- 4. DAILY SPECIAL (SESSION 4 / 5) ---
+            const spec = dailySpecial[todayName];
+            const isSpecLive = currentMins >= 930 && currentMins <= 990;
+            html += `
+                <div class="session-row ${isSpecLive ? 'row-active' : ''}" style="border-left: 8px solid ${spec.c} !important;">
+                    <div class="time-pillar" style="color:${spec.c}">03:30 - 04:30 PM</div>
+                    <div class="details-box" style="background: rgba(0,0,0,0.2);">
+                        <div>
+                            <span class="lesson-title" style="color:${spec.c}">${spec.l}</span>
+                            <span class="room-info">📍 ${spec.r}</span>
+                            ${isSpecLive ? '<span class="live-tag">● LIVE IN SESSION</span>' : ''}
+                        </div>
+                        <span class="instructor-pill" style="background:${spec.c}; color:#000;">${spec.i}</span>
+                    </div>
+                </div>`;
+
+            out.innerHTML = html;
+        }
+    }
+
+    function generateRow(s, time, currentMins) {
+        if(!s) return ""; // Safety check if data is missing
+        const isLive = currentMins >= time.s && currentMins <= time.e;
+        return `
+            <div class="session-row ${isLive ? 'row-active' : ''}">
+                <div class="time-pillar">${time.lbl}</div>
+                <div class="details-box">
+                    <div>
+                        <span class="lesson-title">${s.l}</span>
+                        <span class="room-info">📍 ${s.r}</span>
+                        ${isLive ? '<span class="live-tag">● LIVE IN SESSION</span>' : ''}
+                    </div>
+                    <span class="instructor-pill">${s.i}</span>
+                </div>
+            </div>`;
+    }
+</script>
+
+    <style>
+    /* Navigation Wrapper */
+    .bottom-nav {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        background: var(--navy); /* Uses your existing navy color */
+        padding: 15px 10px;
+        border-radius: 15px 15px 0 0; /* Rounded top corners */
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        box-shadow: 0 -5px 15px rgba(0,0,0,0.2);
+        z-index: 1000;
+    }
+
+    /* Individual Button Style */
+    .nav-item {
+        text-decoration: none;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 0.8rem;
+        font-weight: bold;
+        transition: transform 0.2s, color 0.2s;
+        flex: 1; /* Makes all buttons equal width */
+    }
+
+    /* Icon Placeholder Style */
+    .nav-icon {
+        font-size: 1.5rem;
+        margin-bottom: 5px;
+    }
+
+    /* Hover & Active States */
+    .nav-item:hover {
+        color: var(--orange);
+        transform: translateY(-3px);
+    }
+
+    /* Add padding to body so content doesn't get hidden behind the nav */
+    body {
+        padding-bottom: 80px !important;
+    }
+</style>
+
+<nav class="bottom-nav">
+    <a href="register.html" class="nav-item">
+        <span class="nav-icon">📝</span>
+        <span>Register</span>
+    </a>
+    
+    <a href="announcements.html" class="nav-item">
+        <span class="nav-icon">📢</span>
+        <span>Notices</span>
+    </a>
+    
+    <a href="calendar.html" class="nav-item">
+        <span class="nav-icon">📅</span>
+        <span>Calendar</span>
+    </a>
+    
+    <a href="about.html" class="nav-item">
+        <span class="nav-icon">🏛️</span>
+        <span>About</span>
+    </a>
+
+    <a href="contacts.html" class="nav-item">
+        <span class="nav-icon">📞</span>
+        <span>Contact</span>
+    </a>
+</nav>
+</footer>
+</body>
+</html>

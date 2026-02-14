@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.5">
+    <title>Contact Us | Naminjiwa TC</title>
+    <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#002347">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<script>
+  // Register the Service Worker
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then(reg => console.log('App Registered!'))
+        .catch(err => console.log('Registration Failed', err));
+    });
+  }
+</script>
+    <style>
+        :root {
+            --navy: #002347;
+            --orange: #ff6600;
+            --whatsapp: #25D366;
+            --bg: #f4f7f9;
+            --white: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--bg);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .contact-header {
+            background: var(--navy);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 5px solid var(--orange);
+        }
+
+        .contact-header img {
+            max-height: 70px;
+            margin-bottom: 15px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        .contact-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h2 { color: var(--navy); margin-bottom: 30px; }
+
+        /* Action Buttons */
+        .action-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        .action-btn:active { transform: scale(0.98); }
+
+        .btn-call { background-color: var(--navy); }
+        .btn-whatsapp { background-color: var(--whatsapp); }
+        .btn-email { background-color: var(--orange); }
+
+        .icon { margin-right: 15px; font-size: 1.4rem; }
+
+        .info-text {
+            margin-top: 25px;
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .footer-link {
+            text-align: center;
+            margin-top: 30px;
+            padding-bottom: 40px;
+        }
+
+        .footer-link a {
+            color: var(--navy);
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="contact-header">
+        <img src="logo2.png" alt="Naminjiwa Logo">
+        <h1>Contact Support</h1>
+        <p>Direct lines to Admissions & Administration</p>
+    </header>
+
+    <div class="container">
+        <div class="contact-card">
+            <h2>Get in Touch</h2>
+
+            <a href="tel:+265888746383" class="action-btn btn-call">
+                <span class="icon">📞</span> Call Admissions
+            </a>
+
+            <a href="tel:+265995468105" class="action-btn btn-call">
+                <span class="icon">📞</span> Call Admissions
+            </a>
+
+            <a href="https://wa.me/265995468105?text=Hello,%20I%20am%20enquiring%20about%202026%20Intake" class="action-btn btn-whatsapp">
+                <span class="icon">💬</span> WhatsApp Us
+            </a>
+
+            <a href="mailto:naminjiwa2015@gmail.com" class="action-btn btn-email">
+                <span class="icon">✉️</span> Email Admissions
+            </a>
+
+            <div class="info-text">
+                <p><strong>Office Hours:</strong><br>
+                Monday - Friday: 07:30 AM - 04:30 PM<br>
+                Closed on Public Holidays</p>
+                <p><strong>Location:</strong><br>
+                EPA, Phalombe District, Malawi</p>
+            </div>
+        </div>
+
+        <div class="footer-link">
+            <a href="index.html">← Return to Home</a>
+        </div>
+    </div>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js');
+            });
+        }
+    </script>
+</body>
+</html>
