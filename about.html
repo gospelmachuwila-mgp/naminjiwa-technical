@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.5">
+    <title>About Us | Naminjiwa Technical College</title>
+    <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#002347">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<script>
+  // Register the Service Worker
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then(reg => console.log('App Registered!'))
+        .catch(err => console.log('Registration Failed', err));
+    });
+  }
+</script>
+    <style>
+        :root {
+            --navy: #002347;
+            --orange: #ff6600;
+            --bg: #f4f7f9;
+            --white: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header Section */
+        .hero-about {
+            background: linear-gradient(rgba(0, 35, 71, 0.8), rgba(0, 35, 71, 0.8)), url('campus.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .logo-box {
+            background: white;
+            display: inline-block;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .logo-box img { max-height: 80px; }
+
+        .hero-about h1 { font-size: 2.8rem; margin: 10px 0; }
+        .hero-about p { font-size: 1.2rem; max-width: 700px; margin: auto; }
+
+        .container { max-width: 1000px; margin: -40px auto 40px; padding: 0 20px; }
+
+        /* Content Blocks */
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: var(--navy);
+            border-left: 5px solid var(--orange);
+            padding-left: 15px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .stat-item h3 { color: var(--orange); font-size: 2rem; margin: 0; }
+        .stat-item p { font-size: 0.9rem; font-weight: bold; color: var(--navy); }
+
+        /* Trade List Styling */
+        .trade-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .trade-list li::before {
+            content: "✓";
+            color: var(--orange);
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .footer-nav { text-align: center; padding: 40px; }
+        .btn-back {
+            text-decoration: none;
+            color: var(--navy);
+            border: 2px solid var(--navy);
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn-back:hover { background: var(--navy); color: white; }
+
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="hero-about">
+        <div class="logo-box">
+            <img src="logo2.png" alt="Naminjiwa Logo">
+        </div>
+        <h1>Empowering the Youth</h1>
+        <p>Naminjiwa Community Technical College is Phalombe’s leading institution for vocational excellence and industrial skills development.</p>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <div class="grid">
+                <div>
+                    <h2 class="section-title">Our Mission</h2>
+                    <p>To provide high-quality, accessible technical and vocational training that empowers the youth with practical skills for self-employment and industrial relevance in Malawi.</p>
+                </div>
+                <div>
+                    <h2 class="section-title">Our Vision</h2>
+                    <p>To be a center of excellence in technical education, producing innovative and skilled artisans who contribute significantly to the national economy.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="section-title">Why Choose Naminjiwa TC?</h2>
+            <p>Founded in Phalombe, Naminjiwa Community Technical College operates under the Ministry of Labour in close partnership with <strong>TEVETA Malawi</strong>. We focus on hands-on learning, ensuring that 80% of our curriculum is practical workshop experience.</p>
+            
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>100%</h3>
+                    <p>TEVETA Accredited</p>
+                </div>
+                <div class="stat-item">
+                    <h3>6+</h3>
+                    <p>Specialized Trades</p>
+                </div>
+                <div class="stat-item">
+                    <h3>2026</h3>
+                    <p>Intake Ongoing</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="section-title">Our Departments</h2>
+            <p>Our programs are designed to meet the current demands of the Malawian labor market. We offer Level 1 to Level 3 certifications in:</p>
+            <ul class="trade-list">
+                <li>Information & Communication Technology</li>
+                <li>Welding & Fabrication</li>
+                <li>Tailoring & Fashion Design</li>
+                <li>Bricklaying</li>
+                <li>Plumbing </li>
+                <li>Carpentry & Joinery</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2 class="section-title">Contact & Location</h2>
+            <p><strong>Physical Address:</strong> EPA, Phalombe District, Malawi.</p>
+            <p><strong>Postal Address:</strong> P.O. Box 35, Phalombe.</p>
+            <p><strong>Official Email:</strong> naminjiwa2015@gmail.com</p>
+        </div>
+
+        <div class="footer-nav">
+            <a href="index.html" class="btn-back">← Back to Home</a>
+        </div>
+    </div>
+
+    <script>
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js');
+            });
+        }
+    </script>
+</body>
+</html>

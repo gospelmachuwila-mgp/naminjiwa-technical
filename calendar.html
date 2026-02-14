@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.5">
+    <title>Academic Calendar | Naminjiwa TC</title>
+    <style>
+        :root { 
+            --navy: #002347; 
+            --orange: #ff6600; 
+            --grey: #f4f7f9;
+        }
+
+        body { 
+            background: var(--grey); 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            color: #333;
+        }
+
+        .container { 
+            max-width: 900px; 
+            margin: auto; 
+            background: white; 
+            padding: 40px; 
+            border-radius: 12px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+            border-top: 8px solid var(--navy);
+        }
+
+        .header { 
+            text-align: center; 
+            border-bottom: 2px solid #eee; 
+            margin-bottom: 30px; 
+            padding-bottom: 20px; 
+        }
+
+        /* LOGO STYLING */
+        .logo-container {
+            margin-bottom: 15px;
+        }
+
+        .logo-container img {
+            max-height: 100px; /* Adjust size as needed */
+            width: auto;
+        }
+
+        h2 { color: var(--navy); text-transform: uppercase; margin: 0; letter-spacing: 1px; }
+        p.year-text { color: var(--orange); font-weight: bold; font-size: 1.2rem; margin: 5px 0; }
+
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 20px; 
+        }
+
+        th { 
+            background: #f8f9fa; 
+            color: var(--navy); 
+            text-align: left; 
+            padding: 15px; 
+            border-bottom: 2px solid var(--orange);
+            font-size: 0.95rem;
+        }
+
+        td { 
+            padding: 15px; 
+            border-bottom: 1px solid #eee; 
+            font-size: 0.95rem;
+        }
+
+        tr:nth-child(even) { background-color: #fafafa; }
+        tr:hover { background: #f1f4f7; }
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            display: inline-block;
+        }
+        .deadline { background: #fff4e5; color: #663c00; } 
+        .holiday { background: #ffebee; color: #c62828; } 
+        .academic { background: #e3f2fd; color: #1565c0; } 
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--navy);
+            border: 2px solid var(--navy);
+            padding: 10px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .nav-link:hover { 
+            background: var(--navy); 
+            color: white; 
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 20px; }
+            th, td { padding: 10px; font-size: 0.85rem; }
+            .logo-container img { max-height: 80px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="logo-container">
+            <img src="logo2.png" alt="Naminjiwa TC Logo">
+        </div>
+        
+        <h2>Naminjiwa Community Technical College</h2>
+        <p class="year-text">2026 Academic Calendar</p>
+        <p style="color: #777;">Subject to change by Academic Board Notification</p>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Date(s)</th>
+                <th>Academic Event / Activity</th>
+                <th>Category</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Jan 12 - Jan 16</td>
+                <td>Student Registration & Campus Orientation</td>
+                <td><span class="status-badge academic">Enrollment</span></td>
+            </tr>
+            <tr>
+                <td>Jan 19</td>
+                <td>Term 1 Lectures Commence</td>
+                <td><span class="status-badge academic">Academic</span></td>
+            </tr>
+            <tr>
+                <td>Feb 13</td>
+                <td>Deadline for 50% Tuition Fee Payment</td>
+                <td><span class="status-badge deadline">Financial</span></td>
+            </tr>
+            <tr>
+                <td>March 03</td>
+                <td>Martyrs' Day (Public Holiday)</td>
+                <td><span class="status-badge holiday">Closed</span></td>
+            </tr>
+            <tr>
+                <td>March 23 - 27</td>
+                <td>Mid-Term Continuous Assessments</td>
+                <td><span class="status-badge academic">Testing</span></td>
+            </tr>
+            <tr>
+                <td>April 06 - 10</td>
+                <td>End of Term 1 Examinations</td>
+                <td><span class="status-badge academic">Exams</span></td>
+            </tr>
+            <tr>
+                <td>April 13 - 24</td>
+                <td>Term 1 Vacation Break</td>
+                <td><span class="status-badge holiday">Recess</span></td>
+            </tr>
+            <tr>
+                <td>May 01</td>
+                <td>Labour Day (Public Holiday)</td>
+                <td><span class="status-badge holiday">Closed</span></td>
+            </tr>
+            <tr>
+                <td>May 04</td>
+                <td>Term 2 Resumption</td>
+                <td><span class="status-badge academic">Academic</span></td>
+            </tr>
+            <tr>
+                <td>July 06</td>
+                <td>Independence Day (Public Holiday)</td>
+                <td><span class="status-badge holiday">Closed</span></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="btn-container">
+        <a href="index.html" class="nav-link">← Return to Home</a>
+    </div>
+</div>
+
+</body>
+</html>
